@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trending - SCKYLAB Online Library</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    :root {
+      --main-blue: #191f1f;
+      --secondary-blue: #0d161f;
+      --accent-gold: #f39c12;
+      --accent-teal: #1abc9c;
+      --highlight-green: #2ecc71;
+      --text-dark: #212529;
+      --text-body: #495057;
+      --text-light: #fff;
+      --bg-main: #fcfcfc;
+      --bg-card: #ffffff;
+      --bg-dropdown-hover: #e0e7ee;
+      --border-color: #e0e0e0;
+      --shadow-light: rgba(0,0,0,0.08);
+      --shadow-dark: rgba(0,0,0,0.2);
+      --padding-content: 80px;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      background-image: url('bg1.jpg'); /* Changed background image */
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      color: var(--text-body);
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--main-blue);
+      margin-top: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--main-blue);
+      padding: 27px var(--padding-content);
+      box-shadow: 0 2px 5px var(--shadow-dark);
+    }
+
+    .logo-text {
+      color: var(--text-light);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .browse-text,
+    .nav-link {
+      color: var(--text-light);
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-link:hover,
+    .browse-text:hover {
+      background-color: var(--secondary-blue);
+      color: var(--accent-gold);
+    }
+
+    .dropdown {
+      position: relative;
+      padding-bottom: 5px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: var(--bg-card);
+      min-width: 200px;
+      box-shadow: 0 5px 15px var(--shadow-dark);
+      z-index: 10;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .dropdown-content a {
+      color: var(--text-dark);
+      padding: 12px 18px;
+      text-decoration: none;
+      display: block;
+      font-weight: 500;
+    }
+
+    .dropdown-content a:hover {
+      background-color: var(--bg-dropdown-hover);
+      color: var(--main-blue);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .trending-categories {
+      background-color: var(--bg-card);
+      padding: 15px var(--padding-content);
+      position: sticky;
+      top: 0;
+      z-index: 9;
+      box-shadow: 0 4px 8px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .filter-dropdown {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--main-blue);
+      border-radius: 8px;
+      background-color: var(--bg-main);
+    }
+
+    #genreFilterDropdown {
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      padding: 10px 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      width: 200px;
+      outline: none;
+    }
+
+    .dropdown-icon {
+      padding-right: 10px;
+      color: var(--main-blue);
+    }
+
+    .category-btn {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      border: 2px solid var(--border-color);
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .category-btn:hover {
+      background-color: var(--bg-dropdown-hover);
+      border-color: var(--accent-teal);
+      color: var(--main-blue);
+    }
+
+    .category-btn.active {
+      background-color: var(--accent-gold);
+      color: var(--text-light);
+      border-color: var(--accent-gold);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .content {
+      padding: 40px var(--padding-content);
+      text-align: center;
+    }
+
+    .book-section {
+      background-color: var(--bg-card);
+      box-shadow: 0 6px 15px var(--shadow-light);
+      border-radius: 10px;
+      margin: 20px auto;
+      padding: 25px 35px;
+      max-width: 900px;
+      text-align: left;
+      border-left: 6px solid var(--accent-gold);
+    }
+
+    .book-section h3 {
+      color: var(--secondary-blue);
+      border-bottom: 2px solid var(--accent-teal);
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .book-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .book-list li {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      border-left: 3px solid var(--accent-teal);
+      padding-left: 15px;
+      line-height: 1.4;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .book-info { flex-grow: 1; }
+
+    .reserve-btn {
+      background-color: var(--highlight-green);
+      color: var(--text-light);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .reserve-btn:hover { background-color: #1e7e34; }
+
+    .highlights {
+      background-color: var(--bg-card);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px var(--shadow-light);
+      max-width: 900px;
+      margin: 40px auto;
+      border: 1px solid var(--accent-gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .highlights h3 {
+      color: var(--accent-gold);
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .highlight {
+      margin-bottom: 20px;
+      color: var(--text-dark);
+      background-color: #fff8f0;
+      padding: 20px 25px;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      border-left: 5px solid var(--accent-gold);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .highlight strong {
+      color: var(--secondary-blue);
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+    }
+
+    .quote-icon {
+      color: var(--accent-gold);
+      margin-right: 10px;
+      font-size: 1.2rem;
+      vertical-align: top;
+    }
+
+    .reviewer-name {
+      display: block;
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--text-body);
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px var(--padding-content);
+      background-color: var(--secondary-blue);
+      color: var(--bg-dropdown-hover);
+      font-size: 0.9rem;
+      margin-top: 50px;
+      border-top: 4px solid var(--accent-gold);
+    }
+
+    .footer-link { color: var(--bg-dropdown-hover); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .navbar, .content, .trending-categories { padding-left: 20px; padding-right: 20px; }
+      .navbar { flex-wrap: wrap; justify-content: center; }
+      .menu { order: 3; width: 100%; justify-content: center; margin-top: 15px; gap: 10px; }
+      .content h2 { font-size: 2rem; }
+      .book-section { padding: 20px; }
+      .book-list li { font-size: 1rem; }
+      .book-section h3 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1 class="logo-text">𝙎𝘾𝙆𝙔𝙇𝘼𝘽</h1>
+    <div class="menu">
+      <div class="dropdown">
+        <button class="browse-text"><i class="fas fa-bars"></i> Browse ▾</button>
+        <div class="dropdown-content">
+          <a href="subjects.html"><i class="fas fa-book-open"></i> Subjects</a>
+          <a href="trending.html"><i class="fas fa-chart-line"></i> Trending</a>
+          <a href="explorer.html"><i class="fas fa-compass"></i> Library Explorer</a>
+          <a href="lists.html"><i class="fas fa-clipboard-list"></i> Reserved Books</a>
+          <a href="collections.html"><i class="fas fa-layer-group"></i>Premium Collections</a>
+          <a href="help.html"><i class="fas fa-question-circle"></i> Help & Support</a>
+        </div>
+      </div>
+      <a href="#" id="loginBtn" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="#" id="signupBtn" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+      <a href="SCILAB.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+    </div>
+  </div>
+
+  <!-- Trending Categories -->
+  <div class="trending-categories">
+    <div class="filter-dropdown">
+      <i class="fas fa-filter dropdown-icon"></i>
+      <select id="genreFilterDropdown">
+        <option value="all">Filter by Genre (10+)</option>
+        <option value="novel">Literary Novel</option>
+        <option value="romance">Romance & Erotica</option>
+        <option value="fantasy">Fantasy & Epic</option>
+        <option value="scifi">Science Fiction</option>
+        <option value="mystery">Mystery & Thriller</option>
+        <option value="historical">Historical Fiction</option>
+        <option value="horror">Horror & Gothic</option>
+        <option value="biography">Biography & Memoir</option>
+        <option value="selfhelp">Self-Help & Wellness</option>
+        <option value="business">Business & Economics</option>
+        <option value="children">Children's & YA</option>
+        <option value="cookbooks">Food & Drink (Cookbooks)</option>
+        <option value="poetry">Poetry & Drama</option>
+      </select>
+    </div>
+
+    <button class="category-btn active"># All Trending</button>
+    <button class="category-btn"># Novel</button>
+    <button class="category-btn"># Fictional</button>
+    <button class="category-btn"># Romance</button>
+    <button class="category-btn"># Kids</button>
+    <button class="category-btn"># True Crime</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <h2 style="color: #ffffff;font-weight: bolder ;">
+  🌎 Global Bestsellers & Trending Books
+</h2>
+    <p style="color: #ffbcbc ;font-weight: bolder ;">Discover what the world is reading right now. Updated hourly with the most popular titles across all genres.</p>
+
+    <!-- Book Sections -->
+    <div class="book-section">
+      <h3>🥇 Top 3 Overall Global Trends</h3>
+      <ul class="book-list">
+        <li>
+          <div class="book-info">🔥 <b>"Fourth Wing"</b> – Rebecca Yarros
+            <span>(Fantasy/Romance) The first book in the massively popular Empyrean series.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">💰 <b>"The Psychology of Money"</b> – Morgan Housel
+            <span>(Business/Non-Fiction) Timeless lessons on wealth, greed, and happiness.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">📚 <b>"Lessons in Chemistry"</b> – Bonnie Garmus
+            <span>(Novel/Historical Fiction) A witty and compelling story of a female scientist in the 1950s.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="book-section">
+      <h3>💖 Trending in Romance & Literary Fiction</h3>
+      <ul class="book-list">
+        <li>
+          <div class="book-info">🌹 <b>"The Seven Husbands of Evelyn Hugo"</b> – Taylor Jenkins Reid
+            <span>A sweeping historical fiction novel about a fictional Hollywood icon.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">💋 <b>"It Ends with Us"</b> – Colleen Hoover
+            <span>(Romance) One of the most discussed and influential contemporary romance titles.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">🕰️ <b>"The Secret History"</b> – Donna Tartt
+            <span>(Fictional/Dark Academia) A classic novel trending again due to social media popularity.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="book-section">
+      <h3>💡 Non-Fiction & Self-Improvement</h3>
+      <ul class="book-list">
+        <li>
+          <div class="book-info">🧠 <b>"The Power of Now"</b> – Eckhart Tolle
+            <span>(Self-Help) A spiritual guide that continues to be a global bestseller.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">🔪 <b>"I'll Be Gone in the Dark"</b> – Michelle McNamara
+            <span>(True Crime) The definitive investigation of the Golden State Killer.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+        <li>
+          <div class="book-info">💻 <b>"Sapiens: A Brief History of Humankind"</b> – Yuval Noah Harari
+            <span>(Science/History) Essential reading on human civilization and evolution.</span>
+          </div>
+          <button class="reserve-btn">Reserve</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Highlights -->
+    <div class="highlights">
+      <h3>✨ Reader Highlights</h3>
+      <p class="highlight">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <strong>"Fourth Wing"</strong> completely lived up to the hype! Couldn't stop reading all night.
+        <span class="reviewer-name">– Lena K. (Seattle, WA)</span>
+      </p>
+      <p class="highlight">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <strong>"It Ends with Us"</strong> touched me deeply. A beautiful and emotional journey.
+        <span class="reviewer-name">– Michael S. (Boston, MA)</span>
+      </p>
+      <p class="highlight">
+        <i class="fas fa-quote-left quote-icon"></i>
+        <strong>"Sapiens"</strong> gave me a whole new perspective on history and humanity. Mind
+        -blowing!
+        <span class="reviewer-name">– Aisha R. (London, UK)</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 <b>SCKYLAB Online Library</b>. All Rights Reserved. | 
+    <a href="help.html" class="footer-link">Help & Support</a> | 
+    <a href="terms.html" class="footer-link">Terms of Service</a>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Handle category button active state
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Filter books by genre
+    const genreDropdown = document.getElementById('genreFilterDropdown');
+    genreDropdown.addEventListener('change', () => {
+      const selected = genreDropdown.value;
+      const allBooks = document.querySelectorAll('.book-section li');
+      allBooks.forEach(book => {
+        if (selected === 'all') {
+          book.style.display = 'flex';
+        } else {
+          const infoText = book.querySelector('.book-info').innerText.toLowerCase();
+          book.style.display = infoText.includes(selected.toLowerCase()) ? 'flex' : 'none';
+        }
+      });
+    });
+
+    // Reserve button functionality (localStorage)
+    const reserveButtons = document.querySelectorAll('.reserve-btn');
+    reserveButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const bookTitle = btn.parentElement.querySelector('.book-info').innerText.split('–')[0].trim();
+        let reservedBooks = JSON.parse(localStorage.getItem('reservedBooks')) || [];
+        if (!reservedBooks.includes(bookTitle)) {
+          reservedBooks.push(bookTitle);
+          localStorage.setItem('reservedBooks', JSON.stringify(reservedBooks));
+          alert(`"${bookTitle}" has been reserved!`);
+        } else {
+          alert('You have already reserved this book.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

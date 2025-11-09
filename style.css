@@ -1,0 +1,81 @@
+:root {
+  --main-blue: #177eed;
+  --secondary-blue: #2980b9;
+  --text-navbar: rgb(46, 36, 36);
+  --text-light: #ffffff;
+  --bg-main: #f4f6f9;
+  --shadow-light: rgba(0,0,0,0.1);
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: var(--bg-main);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--main-blue);
+  color: var(--text-navbar);
+  padding: 24px;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--text-light);
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu a,
+.dropdown button {
+  color: var(--text-light);
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 180px;
+  box-shadow: 0 2px 10px var(--shadow-light);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #177eed;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ecf0f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Content Paragraph Styling */
+.content p {
+  color: #e74c3c; /* Light red */
+  font-size: 1.05rem;
+  line-height: 1.6;
+}

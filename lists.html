@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserved Books - SCKYLAB Online Library</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --main-blue: #191f1f; /* Dark Blue */
+            --secondary-blue: #0d161f; /* Very Dark Blue */
+            --accent-gold: #f39c12; /* Accent Gold */
+            --accent-teal: #1abc9c; /* Accent Teal */
+            --highlight-green: #2ecc71;
+            --text-dark: #212529;
+            --text-body: #495057;
+            --text-light: #fff;
+            --bg-main: #fcfcfc;
+            --bg-card: #ffffff;
+            --bg-dropdown-hover: #e0e7ee;
+            --border-color: #e0e0e0;
+            --shadow-light: rgba(0,0,0,0.08);
+            --shadow-dark: rgba(0,0-0,0.2);
+            --padding-content: 80px;
+            --rec-bg: #fff8f0; /* Light background for recommendations */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--main-blue);
+            margin-top: 0;
+        }
+
+        /* --- Navbar Styles (Consistent with Trending Page) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--main-blue); 
+            padding: 27px var(--padding-content); 
+            box-shadow: 0 2px 5px var(--shadow-dark);
+        }
+
+        .logo-text {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .browse-text, .nav-link {
+            color: var(--text-light);
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+        }
+        .browse-text:hover, .nav-link:hover { 
+            background-color: var(--secondary-blue);
+            color: var(--accent-gold); 
+        }
+
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0; 
+            background-color: var(--bg-card);
+            min-width: 200px;
+            box-shadow: 0 5px 15px var(--shadow-dark);
+            z-index: 10;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .dropdown-content a {
+            color: var(--text-dark);
+            padding: 12px 18px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-dropdown-hover);
+            color: var(--main-blue);
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+        /* --- End Navbar Styles --- */
+
+
+        /* --- Content & Reserved List --- */
+        .content {
+            padding: 40px var(--padding-content);
+            text-align: center;
+        }
+
+        .content h2 {
+            color: var(--main-blue); 
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .reserved-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 50px;
+        }
+
+        .book-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            border-left: 5px solid var(--accent-teal);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: left;
+            position: relative; /* Needed for the floating number */
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Improvement: Floating number for reserved position */
+        .book-card::before {
+            content: attr(data-index);
+            position: absolute;
+            top: -15px; 
+            right: -15px;
+            background-color: var(--accent-gold);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 3px solid var(--bg-main);
+        }
+
+        .book-card h3 {
+            color: var(--accent-gold); /* Gold accent for the title */
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .book-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remove-btn {
+            background-color: crimson;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-btn:hover {
+            background-color: #a80000;
+        }
+
+        .empty {
+            margin-top: 50px;
+            font-size: 1.5rem;
+            color: var(--text-body);
+            font-weight: 600;
+        }
+        
+        /* --- Recommendations Section --- */
+        .recommendations {
+            background-color: var(--rec-bg); /* Light Gold/Cream background */
+            padding: 50px var(--padding-content);
+            margin-top: 60px;
+            border-top: 3px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        .recommendations h2 {
+            color: var(--accent-gold); /* Gold heading */
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .recommendations > p {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .rec-list {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .rec-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px var(--shadow-light);
+            width: 250px;
+            text-align: left;
+            border-bottom: 4px solid var(--accent-teal);
+        }
+
+        .rec-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--main-blue);
+            margin: 0 0 5px 0;
+        }
+
+        .rec-card p {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin: 0 0 15px 0;
+        }
+
+        .rec-card button {
+            background-color: var(--highlight-green);
+            color: var(--text-light);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .rec-card button:hover {
+            background-color: #1e7e34;
+        }
+        /* --- End Recommendations Section --- */
+        
+        .fas { margin-right: 5px; }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px 20px;
+                flex-wrap: wrap;
+            }
+            .menu {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+                gap: 10px;
+            }
+            .content {
+                padding: 40px 20px;
+            }
+            .reserved-list {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .recommendations {
+                padding: 40px 20px;
+            }
+            .rec-list {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1 class="logo-text">𝙎𝘾𝙆𝙔𝙇𝘼𝘽</h1>
+        <div class="menu">
+            <div class="dropdown">
+                <button class="browse-text"><i class="fas fa-bars"></i> Browse ▾</button>
+                <div class="dropdown-content">
+                    <a href="subjects.html"><i class="fas fa-book-open"></i> Subjects</a>
+                    <a href="trending.html"><i class="fas fa-chart-line"></i> Trending</a>
+                    <a href="explorer.html"><i class="fas fa-compass"></i> Library Explorer</a>
+                    <a href="lists.html"><i class="fas fa-clipboard-list"></i> Reserved Books</a>
+                    <a href="collections.html"><i class="fas fa-layer-group"></i>Premium Collections</a>
+                    <a href="help.html"><i class="fas fa-question-circle"></i> Help & Support</a>
+                </div>
+            </div>
+            <a href="#" id="loginBtn" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="#" id="signupBtn" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+            <a href="SCILAB.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>📚 Your Reserved Books</h2>
+        <p>All books you’ve reserved appear here. Check your reservation status and remove items if needed.</p>
+        
+        <div class="reserved-list" id="reservedList"></div>
+        <div id="emptyMsg" class="empty">You haven't reserved any books yet. Start exploring the <a href="trending.html" style="color: var(--accent-gold);">Trending</a> page!</div>
+    </div>
+
+    <div class="recommendations">
+        <h2>✨ Recommended For You</h2>
+        <p>Based on the books you recently reserved, we think you'll love these titles.</p>
+        
+        <div class="rec-list">
+            <div class="rec-card">
+                <h4>The Midnight Library</h4>
+                <p>Matt Haig (Fiction/Fantasy)</p>
+                <button><i class="fas fa-bookmark"></i> Explore</button>
+            </div>
+            <div class="rec-card">
+                <h4>Atomic Habits</h4>
+                <p>James Clear (Self-Help)</p>
+                <button><i class="fas fa-bookmark"></i> Explore</button>
+            </div>
+            <div class="rec-card">
+                <h4>Dune</h4>
+                <p>Frank Herbert (Science Fiction)</p>
+                <button><i class="fas fa-bookmark"></i> Explore</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Load reserved books from localStorage
+        function loadReservedBooks() {
+            const reservedList = document.getElementById('reservedList');
+            const emptyMsg = document.getElementById('emptyMsg');
+            let reservedTitles = JSON.parse(localStorage.getItem('reservedBooks')) || [];
+            
+            reservedList.innerHTML = '';
+
+            if (reservedTitles.length === 0) {
+                emptyMsg.style.display = 'block';
+                return;
+            } else {
+                emptyMsg.style.display = 'none';
+            }
+            
+            // Map the reserved titles (strings) to better objects for display
+            const reservedBooks = reservedTitles.map((titleString, index) => {
+                let title = titleString.replace(/['"]+/g, '');
+                let author = "Unknown Author";
+
+                if (titleString.includes('–')) {
+                    const parts = titleString.split('–');
+                    title = parts[0].trim().replace(/['"]+/g, '');
+                    // Extract author, removing any trailing genre in parentheses
+                    author = parts[1].split('(')[0].trim();
+                }
+                
+                return {
+                    id: index + 1, // Use index + 1 as a mock ID/position
+                    title: title,
+                    author: author
+                };
+            });
+            
+            reservedBooks.forEach((book, index) => {
+                const div = document.createElement('div');
+                div.className = 'book-card';
+                // Use the data-index attribute for the floating number in CSS
+                div.setAttribute('data-index', index + 1); 
+                
+                div.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p><strong>Author:</strong> ${book.author}</p>
+                    <p><strong>Reserved Date:</strong> ${new Date().toLocaleDateString()}</p>
+                    <button class="remove-btn" onclick="removeBook(${index})"><i class="fas fa-trash"></i> Remove</button>
+                `;
+                reservedList.appendChild(div);
+            });
+        }
+
+        function removeBook(index) {
+            let reservedBooks = JSON.parse(localStorage.getItem('reservedBooks')) || [];
+            reservedBooks.splice(index, 1);
+            localStorage.setItem('reservedBooks', JSON.stringify(reservedBooks));
+            loadReservedBooks();
+        }
+
+        // Load books on page start
+        loadReservedBooks();
+    </script>
+</body>
+</html>

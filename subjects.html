@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Subjects - SCKYLAB Student Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        /* --- NEW Color Palette & Variables --- */
+        :root {
+            --main-blue: #191f1f;       /* Darker, professional blue (Deep Navy) */
+            --secondary-blue: #0d161f; /* Slightly lighter for accents */
+            --accent-gold: #f39c12;     /* Warm Gold accent */
+            --accent-teal: #1abc9c;     /* Bright Teal accent */
+            --highlight-green: #2ecc71; /* Success Green */
+
+            --text-dark: #212529;       /* Darker text for titles */
+            --text-body: #1d4369;       /* Standard body text */
+            --text-light: #fff;         /* White text for dark backgrounds */
+            
+            --bg-main: #fcfcfc;         /* Very light background */
+            --bg-secondary: #ecf0f1;   /* Light gray for alternating sections */
+            --bg-card: #ffffff;         /* White for cards */
+            
+            --border-color: #e0e0e0;    /* Lighter, subtle border */
+            --shadow-light: rgba(0,0,0,0.08);
+            --shadow-dark: rgba(0,0,0,0.2);
+            --padding-section: 60px;    /* Consistent section padding */
+            --padding-content: 80px;    /* Wider content padding */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif; /* Serif font for headings */
+            color: var(--main-blue);
+            margin-top: 0;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--main-blue);
+            padding: 27px var(--padding-content); /* Use new variable */
+            box-shadow: 0 2px 5px var(--shadow-dark);
+            position: sticky; /* Make navbar sticky */
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-text {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .browse-text, .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px; /* Added padding for better click area */
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .browse-text:hover, .nav-link:hover {
+            background-color: var(--secondary-blue);
+            color: var(--accent-gold); /* Accent color on hover */
+        }
+        
+        /* Dropdown */
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); /* Slightly below button */
+            right: 0; 
+            background-color: var(--bg-card);
+            min-width: 200px;
+            box-shadow: 0 5px 15px var(--shadow-dark);
+            z-index: 10;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .dropdown-content a {
+            color: var(--text-dark);
+            padding: 12px 18px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+        }
+        .dropdown-content a:hover {
+            background-color: var(--bg-secondary);
+            color: var(--main-blue);
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- Hero Section for Subjects Page --- */
+        .hero-subjects {
+            background: linear-gradient(rgba(81, 126, 172, 0.7), rgba(21, 29, 37, 0.7)), url('bg2.jpg'); /* Use a specific image */
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 100px var(--padding-content);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        .hero-subjects h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-subjects p {
+            font-size: 1.3rem;
+            font-weight: 400;
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            color: rgba(255,255,255,0.9);
+        }
+        .hero-button {
+            background-color: var(--accent-gold);
+            color: var(--text-light);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .hero-button:hover {
+            background-color: darken(var(--accent-gold), 10%); /* Darken on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* --- Search & Filter Section --- */
+        .filter-section {
+            background-color: var(--bg-secondary);
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .filter-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--main-blue);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px 18px;
+            font-size: 1.05rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .filter-input:focus {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(100, 100, 99, 0.2);
+        }
+        .filter-button {
+            background-color: var(--accent-teal);
+            color: var(--text-light);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .filter-button:hover {
+            background-color: darken(var(--accent-teal), 10%);
+            transform: translateY(-2px);
+        }
+
+        /* --- Subject Cards Grid --- */
+        .content {
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+            color: var(--main-blue);
+            position: relative;
+            display: inline-block;
+        }
+        .content h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1400px; /* Wider grid */
+            margin: 0 auto;
+        }
+
+        .subject-card {
+            background-color: var(--bg-card);
+            box-shadow: 0 6px 15px var(--shadow-light);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .subject-card::before { /* Decorative overlay */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--main-blue), var(--accent-gold), var(--accent-teal));
+            transition: height 0.3s ease;
+        }
+        .subject-card:hover::before {
+            height: 10px; /* Thicker on hover */
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px var(--shadow-dark);
+        }
+
+        .subject-card h3 {
+            color: var(--main-blue);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .subject-card h3 .icon {
+            color: var(--accent-gold); /* Icon specific color */
+            font-size: 1.8rem;
+        }
+        
+        .subject-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* --- Featured Subjects Carousel (Static) --- */
+        .featured-section {
+            background-color: var(--bg-secondary);
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+        }
+        .featured-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--main-blue);
+        }
+        .featured-carousel {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+        .carousel-item {
+            background-color: var(--bg-card);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-light);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        .carousel-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-dark);
+        }
+        .carousel-item h4 {
+            color: var(--accent-teal);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .carousel-item p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        .carousel-item .view-button {
+            background-color: var(--main-blue);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-item .view-button:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        /* --- Recommended section (Redesigned) --- */
+        .recommended-section {
+            background-color: var(--bg-main);
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+        }
+        .recommended-section h2 {
+            font-size: 2.5rem;
+            color: var(--main-blue);
+            margin-bottom: 30px;
+        }
+        .recommended-list-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px var(--shadow-light);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+        .recommended-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* More spacious columns */
+            gap: 20px;
+            text-align: left;
+        }
+
+        .recommended-list li {
+            margin-bottom: 0;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-gold); /* Stronger accent */
+            background-color: var(--bg-secondary);
+            transition: background-color 0.3s ease, border-left-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommended-list li:hover {
+            background-color: #e0e7ee; /* Lighter hover for contrast */
+            border-left-color: var(--main-blue);
+            transform: translateX(5px);
+            cursor: pointer;
+        }
+        .recommended-list li .fas {
+            color: var(--main-blue);
+            font-size: 1.2em;
+        }
+
+        /* --- Testimonials Section --- */
+        .testimonials-section {
+            background-color: var(--main-blue); /* Dark background */
+            color: var(--text-light);
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+        }
+        .testimonials-section h2 {
+            color: var(--accent-gold);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .testimonial-card {
+            background-color: rgba(255,255,255,0.1); /* Semi-transparent white */
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            background-color: rgba(132, 30, 30, 0.15);
+            transform: translateY(-5px);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--accent-teal);
+            font-size: 1.1rem;
+        }
+
+        /* --- Call to Action Section --- */
+        .cta-section {
+            background-color: var(--bg-secondary);
+            padding: var(--padding-section) var(--padding-content);
+            text-align: center;
+        }
+        .cta-section h2 {
+            color: var(--main-blue);
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: var(--text-body);
+        }
+        .cta-button {
+            background-color: var(--highlight-green);
+            color: var(--text-light);
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .cta-button:hover {
+            background-color: darken(var(--highlight-green), 10%);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* --- Footer (Consistent) --- */
+        footer {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-top: 5px solid var(--accent-gold); /* Footer accent */
+        }
+        footer a {
+            color: var(--accent-teal);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--highlight-green);
+            text-decoration: underline;
+        }
+
+
+        /* --- Modals (Consistent) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001; /* Even higher for any new elements */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            position: relative;
+            animation: slideInModal 0.3s ease-out;
+        }
+        .modal-content h3 {
+            color: var(--main-blue);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        .modal-content input {
+            width: calc(100% - 24px);
+            margin-bottom: 18px;
+            padding: 12px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .modal-content input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
+        }
+        .modal-content button {
+            background-color: var(--accent-gold);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .modal-content button:hover {
+            background-color: darken(var(--accent-gold), 10%);
+            transform: translateY(-2px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--main-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInModal {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Utility for darkening colors in CSS (pseudo-function) */
+        /* You'd typically use a preprocessor like SASS for this */
+        .darken-background-color-hover:hover {
+            background-color: var(--darkened-color); /* define --darkened-color */
+        }
+
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .navbar, .hero-subjects, .filter-section, .content, .featured-section, .recommended-section, .testimonials-section, .cta-section {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            .subject-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+            .recommended-list { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .testimonial-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; justify-content: center; gap: 10px; padding: 15px 20px; }
+            .menu { order: 3; width: 100%; justify-content: center; margin-top: 15px; gap: 10px; }
+            .logo-text { font-size: 1.5rem; }
+            .hero-subjects h1 { font-size: 2.5rem; }
+            .hero-subjects p { font-size: 1.1rem; }
+            .filter-controls { flex-direction: column; align-items: center; }
+            .filter-input { max-width: 100%; }
+            .content h2 { font-size: 2rem; }
+            .subject-grid { grid-template-columns: 1fr; }
+            .recommended-list { grid-template-columns: 1fr; }
+            .featured-carousel { flex-direction: column; align-items: center; }
+            .carousel-item { width: 100%; max-width: 400px; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .modal-content { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1 class="logo-text">𝙎𝘾𝙆𝙔𝙇𝘼𝘽</h1>
+        <div class="menu">
+            <div class="dropdown">
+                <button class="browse-text"><i class="fas fa-bars"></i> Browse ▾</button>
+                <div class="dropdown-content">
+                    <a href="subjects.html"><i class="fas fa-book-open"></i>  Subjects</a>
+                    <a href="trending.html"><i class="fas fa-chart-line"></i> Trending </a>
+                    <a href="explorer.html"><i class="fas fa-compass"></i> Library Explorer</a>
+                    <a href="lists.html"><i class="fas fa-clipboard-list"></i> Reserved Books</a> 
+                    <a href="collections.html"><i class="fas fa-layer-group"></i> Premium Collections</a>
+                    <a href="help.html"><i class="fas fa-question-circle"></i> Help & Support</a>
+                </div>
+            </div>
+            <a href="SCILAB.html" class="nav-link"><i class="fas fa-home"></i> Home</a> 
+            <a href="#" id="loginBtn" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="#" id="signupBtn" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+        </div>
+    </div>
+
+    <div class="hero-subjects">
+        <h1>Your Academic Success Starts Here</h1>
+        <p>Access **core course materials**, essential **research papers**, and **textbooks** across every major academic discipline to support your studies.</p>
+        <a href="#subject-grid-section" class="hero-button">Start Exploring Courses <i class="fas fa-arrow-down"></i></a>
+    </div>
+    
+    <div class="filter-section">
+        <h3>Quickly Locate Your Required Subject Area</h3>
+        <div class="filter-controls">
+            <input type="text" id="subjectSearchInput" class="filter-input" placeholder="Search for a course, module, or topic...">
+            <button class="filter-button" onclick="filterSubjects()">Search Resources <i class="fas fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="content" id="subject-grid-section">
+        <h2>Primary Academic Disciplines</h2>
+        <div class="subject-grid" id="subjectGrid">
+            
+            <div class="subject-card" data-subject="Mathematics & Statistics">
+                <h3><i class="icon fas fa-calculator"></i> Mathematics & Statistics</h3>
+                <p>Foundation and advanced texts on Calculus, Algebra, Discrete Math, and statistical analysis for complex problem-solving.</p>
+            </div>
+            <div class="subject-card" data-subject="Physics & Engineering">
+                <h3><i class="icon fas fa-atom"></i> Physics & Engineering</h3>
+                <p>Mechanics, Thermodynamics, Quantum Theory, Electrical Engineering, and materials science for technical careers.</p>
+            </div>
+            <div class="subject-card" data-subject="Computer Science & IT">
+                <h3><i class="icon fas fa-code"></i> Computer Science & IT</h3>
+                <p>Programming languages, Data Structures, Algorithms, Cybersecurity, AI/Machine Learning, and network administration.</p>
+            </div>
+            <div class="subject-card" data-subject="Biology & Life Sciences">
+                <h3><i class="icon fas fa-dna"></i> Biology & Life Sciences</h3>
+                <p>Cell biology, Genetics, Ecology, Anatomy, and Microbiology. Essential resources for medical and environmental students.</p>
+            </div>
+
+            <div class="subject-card" data-subject="History & Political Science">
+                <h3><i class="icon fas fa-university"></i> History & Political Science</h3>
+                <p>Comprehensive studies on global governance, political theory, international relations, and historical analysis methods.</p>
+            </div>
+            <div class="subject-card" data-subject="Literature & Linguistics">
+                <h3><i class="icon fas fa-pen-fancy"></i> Literature & Linguistics</h3>
+                <p>Critical theory, literary history, composition guides, grammar, and world language learning materials.</p>
+            </div>
+            <div class="subject-card" data-subject="Psychology & Sociology">
+                <h3><i class="icon fas fa-users"></i> Psychology & Sociology</h3>
+                <p>Research methods, behavioral science, social theory, cultural analysis, and developmental psychology texts.</p>
+            </div>
+
+            <div class="subject-card" data-subject="Business, Finance & Management">
+                <h3><i class="icon fas fa-chart-bar"></i> Business, Finance & Management</h3>
+                <p>Core textbooks on accounting, market strategy, corporate finance, and organizational leadership principles.</p>
+            </div>
+            <div class="subject-card" data-subject="Health & Medical Studies">
+                <h3><i class="icon fas fa-pills"></i> Health & Medical Studies</h3>
+                <p>Nursing, Public Health, Pharmacology, and clinical practice guides for future healthcare professionals.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="featured-section">
+        <h2>Essential Study & Research Topics</h2>
+        <div class="featured-carousel">
+            <div class="carousel-item">
+                <h4>Academic Writing</h4>
+                <p>Guides on essay structure, citation formats (APA, MLA), and thesis preparation.</p>
+                <a href="#" class="view-button">View Guides</a>
+            </div>
+            <div class="carousel-item">
+                <h4>Research Methodology</h4>
+                <p>Books covering qualitative, quantitative, and mixed-methods research design.</p>
+                <a href="#" class="view-button">View Books</a>
+            </div>
+            <div class="carousel-item">
+                <h4>Career Development</h4>
+                <p>Resources on interview skills, CV writing, and industry-specific job market insights.</p>
+                <a href="#" class="view-button">View Books</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="recommended-section">
+        <h2>Top Recommended Student Resources</h2>
+        <div class="recommended-list-container">
+            <ul class="recommended-list">
+                <li><i class="fas fa-star"></i> *The Craft of Research* — Booth, Colomb, & Williams</li>
+                <li><i class="fas fa-star"></i> *How to Take Smart Notes* — Sönke Ahrens</li>
+                <li><i class="fas fa-star"></i> *Essential Calculus* — James Stewart</li>
+                <li><i class="fas fa-star"></i> *Psychology: The Science of Mind and Behaviour* — Michael Passer</li>
+                <li><i class="fas fa-star"></i> *The Elements of Style* — Strunk & White</li>
+                <li><i class="fas fa-star"></i> *Principles of Microeconomics* — N. Gregory Mankiw</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="testimonials-section">
+        <h2>What Students Say About SCKYLAB</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"I instantly found the **required textbook** for my Computer Science course. The library is a lifesaver during exam season!"</p>
+                <div class="author">— Krishna P., Engineering Student</div>
+            </div>
+            <div class="testimonial-card">
+                <p>"The organization by academic discipline is excellent. It made gathering **sources for my dissertation** incredibly efficient."</p>
+                <div class="author">— Dr. Indira R., PhD Candidate</div>
+            </div>
+            <div class="testimonial-card">
+                <p>"Best interface for an online university library. Everything is easy to find, from **lecture notes to core readings**."</p>
+                <div class="author">— Samar K., Business Major</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Ready to Master Your Coursework?</h2>
+        <p>Sign up now to save resources, create **custom study lists**, and get access to **peer-reviewed journals** for your deepest research needs.</p>
+        <a href="#" id="ctaSignupBtn" class="cta-button">Enroll for Free Access <i class="fas fa-graduation-cap"></i></a>
+    </div>
+
+    <footer>
+        &copy; 2025 SCKYLAB Student Portal | <a href="#">Academic Integrity Policy</a> | <a href="#">Student Help Desk</a> | Powered by Knowledge.
+    </footer>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Welcome Back!</h3>
+            <input type="text" id="loginEmail" placeholder="Student ID or Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button onclick="handleLogin()">Login to Account</button>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+            <h3>Create Your SCKYLAB Student Account</h3>
+            <input type="text" id="signupName" placeholder="Full Name">
+            <input type="email" id="signupEmail" placeholder="University Email">
+            <input type="password" id="signupPassword" placeholder="Set Password">
+            <button onclick="handleSignup()">Sign Up for Access</button>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openModal(id) { document.getElementById(id).style.display = "flex"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+        // Event listeners for login/signup buttons
+        document.getElementById("loginBtn").onclick = () => openModal("loginModal");
+        document.getElementById("signupBtn").onclick = () => openModal("signupModal");
+        document.getElementById("ctaSignupBtn").onclick = () => openModal("signupModal"); // CTA button for signup
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) event.target.style.display = 'none';
+        }
+
+        function handleLogin() { 
+            alert("Login functionality under development. (Pretend you logged in!)"); 
+            closeModal('loginModal'); 
+        }
+
+        // Updated handleSignup function to include input values
+        function handleSignup() { 
+            const name = document.getElementById("signupName").value;
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+
+            if (name && email && password) {
+                alert(`Welcome, ${name}! Your SCKYLAB student account has been created for ${email}.`); 
+                closeModal('signupModal');
+            } else {
+                alert("Please fill in all fields to sign up.");
+            }
+        }
+
+        // Subject Filtering Functionality
+        function filterSubjects() {
+            const query = document.getElementById('subjectSearchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.subject-card');
+            
+            let found = false;
+
+            cards.forEach(card => {
+                const subjectName = card.dataset.subject.toLowerCase();
+                const subjectDescription = card.querySelector('p').textContent.toLowerCase();
+
+                // Search in both the data attribute and the description for better results
+                if (subjectName.includes(query) || subjectDescription.includes(query)) {
+                    card.style.display = 'block';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Optional: You could add a 'no results' message here
+            if (!found && query.length > 0) {
+                console.log(`No subjects or topics found matching "${query}"`);
+                // Example of adding a temporary message (requires a dedicated div in HTML for best practice)
+                // alert(`No academic subjects found matching "${query}". Please try a different term.`);
+            }
+        }
+
+        // Add event listener for Enter key in search input
+        document.getElementById('subjectSearchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                filterSubjects();
+            }
+        });
+    </script>
+</body>
+</html>
