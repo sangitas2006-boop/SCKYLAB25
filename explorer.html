@@ -10,29 +10,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
   <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.png">
 
   <style>
     /* --- UNIFIED Color Palette & Variables --- */
     :root {
-      --main-blue: #191f1f;          /* Deep Navy - Primary Brand Color */
-      --secondary-blue: #0d161f;     /* Slightly lighter Navy */
-      --accent-gold: #f39c12;        /* Warm Gold accent */
-      --accent-teal: #1abc9c;        /* Bright Teal accent */
-      --highlight-green: #2ecc71;    /* Success Green */
+      --main-blue: #191f1f;
+      --secondary-blue: #0d161f;
+      --accent-gold: #f39c12;
+      --accent-teal: #1abc9c;
+      --highlight-green: #2ecc71;
 
       --text-dark: #212529;
       --text-body: #495057;
       --text-light: #ffffff;
 
-      --bg-main: #fcfcfc;            /* Light background */
+      --bg-main: #fcfcfc;
       --bg-card: #ffffff;
-      --bg-dropdown-hover: #e0e7ee;  /* Light blue-gray hover */
+      --bg-dropdown-hover: #e0e7ee;
 
       --border-color: #e0e0e0;
       --shadow-light: rgba(0, 0, 0, 0.08);
       --shadow-dark: rgba(0, 0, 0, 0.2);
-      --padding-content: 80px;       /* Consistent content padding */
+      --padding-content: 80px;
     }
 
     body {
@@ -42,13 +45,13 @@
       color: var(--text-body);
     }
 
-    .logo-text { 
-    color: var(--text-light); 
-    font-size: 1.8rem; 
-    font-weight: 800; 
-    margin: 0; 
-    letter-spacing: 1px;
-}
+    .logo-text {
+      color: var(--text-light);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 1px;
+    }
 
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
@@ -64,21 +67,16 @@
       background-color: var(--main-blue);
       padding: 27px var(--padding-content);
       box-shadow: 0 2px 5px var(--shadow-dark);
-       position: sticky; /* Make navbar sticky */
-            top: 0;
-            z-index: 1000;
-    }
-
-    
-
-    .logo-image:hover {
-      opacity: 0.8;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     .menu {
       display: flex;
       align-items: center;
       gap: 25px;
+      position: relative;
     }
 
     .browse-text,
@@ -104,14 +102,17 @@
     /* --- Dropdown --- */
     .dropdown {
       position: relative;
+      display: inline-block;
     }
 
     .dropdown-content {
       display: none;
       position: absolute;
-      right: 0;
+      left: 0; /* Align to the left of the Browse button */
+      top: 100%;
       background-color: var(--bg-card);
-      min-width: 200px;
+      min-width: 220px;
+      max-width: 95vw; /* Prevent overflow off-screen */
       box-shadow: 0 5px 15px var(--shadow-dark);
       z-index: 10;
       border-radius: 8px;
@@ -126,6 +127,7 @@
       display: block;
       font-weight: 500;
       transition: background-color 0.3s ease, color 0.3s ease;
+      white-space: nowrap;
     }
 
     .dropdown-content a:hover {
@@ -276,6 +278,12 @@
         gap: 10px;
       }
 
+      .dropdown-content {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90vw;
+      }
+
       .content h2 {
         font-size: 2rem;
       }
@@ -289,20 +297,20 @@
 
 <body>
   <div class="navbar">
-   <h1 class="logo-text">𝙎𝘾𝙆𝙔𝙇𝘼𝘽</h1>
-   <div class="menu">
+    <h1 class="logo-text">𝙎𝘾𝙆𝙔𝙇𝘼𝘽</h1>
+    <div class="menu">
       <div class="dropdown">
         <button class="browse-text"><i class="fas fa-bars"></i> Browse ▾</button>
         <div class="dropdown-content">
           <a href="subjects.html"><i class="fas fa-book-open"></i> Subjects</a>
           <a href="trending.html"><i class="fas fa-chart-line"></i> Trending</a>
           <a href="explorer.html"><i class="fas fa-compass"></i> Library Explorer</a>
-          <a href="lists.html"><i class="fas fa-clipboard-list"></i> Lists</a>
-          <a href="collections.html"><i class="fas fa-layer-group"></i>Premium Collections</a>
+          <a href="lists.html"><i class="fas fa-clipboard-list"></i>Reserved Books</a>
+          <a href="collections.html"><i class="fas fa-layer-group"></i> Premium Collections</a>
           <a href="help.html"><i class="fas fa-question-circle"></i> Help & Support</a>
         </div>
       </div>
-      <a href="SCILAB.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
     </div>
   </div>
 
