@@ -124,10 +124,13 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    .dropdown-content a:hover {
-      background-color: var(--bg-dropdown-hover);
-      color: var(--main-blue);
-    }
+    /* Dropdown opens on hover for PC */
+@media (min-width: 769px) {
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+}
+
 
     .dropdown-content.show {
       display: block;
